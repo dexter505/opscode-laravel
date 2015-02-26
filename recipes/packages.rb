@@ -14,7 +14,7 @@ node['laravel']['packages'].each do |a_package|
 end
 
 # Install npm packages
-include_recipe "npm"
-node['laravel']['npm_packages'].each do |a_package|
-  npm_package a_package
-end
+#include_recipe "npm"
+#node['laravel']['npm_packages'].each do |a_package|
+  #npm_package a_package
+#end
