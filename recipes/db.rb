@@ -27,4 +27,11 @@ bash 'insert_db_laravel' do
   EOH
 end
 
+bash 'insert_db_laravel_authentication_extension' do
+  user 'root'
+  cwd "/var/www/#{node['laravel']['name']}"
+  code <<-EOH
+  yes | php artisan authentication:install
+  EOH
+end
 
