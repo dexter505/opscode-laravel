@@ -17,6 +17,15 @@ ruby_block "create_#{node['laravel']['name']}_db" do
     not_if "mysql -uroot -p#{node['mysql']['server_root_password']} -e \"SHOW DATABASES LIKE '#{node['laravel']['db_name']}'\" | grep #{node['laravel']['db_name']}";
     action :create
 end
+
+bash 'run composer to grab extensions' do
+  user 'root'
+  cwd "/var/www/#{node['laravel']['name']}"
+  code <<-EOH
+  composer update
+  EOH
+end
+
 # Run artisan migrate to setup the database and schema, then seed it
 bash 'insert_db_laravel' do
   user 'root'
@@ -24,14 +33,6 @@ bash 'insert_db_laravel' do
   code <<-EOH
   php artisan migrate --env=development
   php artisan db:seed --env=development
-  EOH
-end
-
-bash 'run composer to grab extensions' do
-  user 'root'
-  cwd "/var/www/#{node['laravel']['name']}"
-  code <<-EOH
-  composer update
   EOH
 end
 
