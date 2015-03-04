@@ -27,6 +27,14 @@ bash 'insert_db_laravel' do
   EOH
 end
 
+bash 'run composer to grab extensions' do
+  user 'root'
+  cwd "/var/www/#{node['laravel']['name']}"
+  code <<-EOH
+  composer update
+  EOH
+end
+
 bash 'insert_db_laravel_authentication_extension' do
   user 'root'
   cwd "/var/www/#{node['laravel']['name']}"
