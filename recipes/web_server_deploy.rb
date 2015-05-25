@@ -1,8 +1,8 @@
 #
 # Cookbook Name:: laravel
-# Recipe:: web_server
+# Recipe:: web_server_deploy
 #
-# Copyright 2013, Mathias Hansen
+# Copyright 2015, Dexter Alkus
 #
 
 node[:deploy].each do |app_name, deploy|
