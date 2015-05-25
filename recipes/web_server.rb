@@ -17,6 +17,7 @@ node[:deploy].each do |app_name, deploy|
     code <<-EOH
     curl -sS https://getcomposer.org/installer | php
     php composer.phar install --no-dev
+    sudo mv composer.phar /usr/local/bin/composer
     EOH
   end
 
