@@ -5,9 +5,6 @@
 # Copyright 2013, Mathias Hansen
 #
 
-# Install xdebug
-include_recipe "chef-php-extra::xdebug"
-
 node[:deploy].each do |app_name, deploy|
 
   script "install_composer" do
