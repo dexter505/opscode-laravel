@@ -31,7 +31,6 @@ node[:deploy].each do |app_name, deploy|
   end
   
   #not sure why this doesn't happen in the mcrypt recipe...
-
   script "enable_mcrypt" do
     interpreter "bash"
     user "root"
@@ -41,8 +40,13 @@ node[:deploy].each do |app_name, deploy|
     EOH
   end
 
-# Install composer
+  # correct permissions to allow apache to write
+    execute "chmod #{deploy[:deploy_to]}/current/app/storage" do
+        cwd "#{deploy[:deploy_to]}/current/app/storage"
+        command "chmod -R u+rwX,g+rwX ."
+    end
 
+  # Download composer
   script "download_composer" do
     interpreter "bash"
     user "root"
@@ -52,6 +56,7 @@ node[:deploy].each do |app_name, deploy|
     EOH
   end
 
+  # Move composer to bin
   script "move_composer" do
     interpreter "bash"
     user "root"
@@ -61,12 +66,13 @@ node[:deploy].each do |app_name, deploy|
     EOH
   end
 
+  # Install Laravel
   script "install_composer" do
     interpreter "bash"
     user "root"
     cwd "#{deploy[:deploy_to]}/current"
     code <<-EOH
-    composer install --no-dev
+    composer install --no-dev --no-interaction --optimize-autoloader
     EOH
   end
 
