@@ -29,14 +29,43 @@ node[:deploy].each do |app_name, deploy|
      File.directory?("#{deploy[:deploy_to]}/current")
    end
   end
+  
+  #not sure why this doesn't happen in the mcrypt recipe...
+
+  script "enable_mcrypt" do
+    interpreter "bash"
+    user "root"
+    cwd "#{deploy[:deploy_to]}/current"
+    code <<-EOH
+    sudo php5enmod mcrypt
+    EOH
+  end
+
+# Install composer
+
+  script "download_composer" do
+    interpreter "bash"
+    user "root"
+    cwd "#{deploy[:deploy_to]}/current"
+    code <<-EOH
+    curl -sS https://getcomposer.org/installer | php
+    EOH
+  end
+
+  script "move_composer" do
+    interpreter "bash"
+    user "root"
+    cwd "#{deploy[:deploy_to]}/current"
+    code <<-EOH
+    mv composer.phar /usr/local/bin/composer
+    EOH
+  end
 
   script "install_composer" do
     interpreter "bash"
     user "root"
     cwd "#{deploy[:deploy_to]}/current"
     code <<-EOH
-    curl -sS https://getcomposer.org/installer | php
-    sudo mv composer.phar /usr/local/bin/composer
     composer install --no-dev
     EOH
   end
