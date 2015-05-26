@@ -42,8 +42,8 @@ node[:deploy].each do |app_name, deploy|
   end
 
   # correct permissions to allow apache to write
-    execute "chmod #{deploy[:deploy_to]}/current/app/storage" do
-        cwd "#{deploy[:deploy_to]}/current/app/storage"
+    execute "chmod #{deploy[:deploy_to]}/current/storage" do
+        cwd "#{deploy[:deploy_to]}/current/storage"
         command "chmod -R u+rwX,g+rwX ."
     end
 
