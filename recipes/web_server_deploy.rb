@@ -13,8 +13,8 @@ node[:deploy].each do |app_name, deploy|
     cwd "#{deploy[:deploy_to]}/current"
     code <<-EOH
     curl -sS https://getcomposer.org/installer | php
-    php composer.phar install --no-dev
     sudo mv composer.phar /usr/local/bin/composer
+    composer install --no-dev
     EOH
   end
 
