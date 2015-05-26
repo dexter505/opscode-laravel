@@ -7,17 +7,6 @@
 
 node[:deploy].each do |app_name, deploy|
 
-  script "install_composer" do
-    interpreter "bash"
-    user "root"
-    cwd "#{deploy[:deploy_to]}/current"
-    code <<-EOH
-    curl -sS https://getcomposer.org/installer | php
-    sudo mv composer.phar /usr/local/bin/composer
-    composer install --no-dev
-    EOH
-  end
-
   template "#{deploy[:deploy_to]}/current/.env" do
     source ".env.erb"
     mode 0660
@@ -40,13 +29,16 @@ node[:deploy].each do |app_name, deploy|
      File.directory?("#{deploy[:deploy_to]}/current")
    end
   end
-  
-  bash 'run composer to grab extensions' do
-  user 'root'
-  cwd "#{deploy[:deploy_to]}/current"
-  code <<-EOH
-  composer update
-  EOH
+
+  script "install_composer" do
+    interpreter "bash"
+    user "root"
+    cwd "#{deploy[:deploy_to]}/current"
+    code <<-EOH
+    curl -sS https://getcomposer.org/installer | php
+    sudo mv composer.phar /usr/local/bin/composer
+    composer install --no-dev
+    EOH
   end
 
   # Run jocopo user auth plugin install first
