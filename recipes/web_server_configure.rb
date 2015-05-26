@@ -19,6 +19,20 @@ node[:deploy].each do |app_name, deploy|
     sudo php5enmod mcrypt
     EOH
   end
+end
 
 # Install xdebug
 include_recipe "chef-php-extra::xdebug"
+
+# Install composer
+node[:deploy].each do |app_name, deploy|
+  script "install_composer" do
+    interpreter "bash"
+    user "root"
+    cwd "#{deploy[:deploy_to]}/current"
+    code <<-EOH
+    curl -sS https://getcomposer.org/installer | php
+    sudo mv composer.phar /usr/local/bin/composer
+    EOH
+  end
+end
