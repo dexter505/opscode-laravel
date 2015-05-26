@@ -87,12 +87,12 @@ node[:deploy].each do |app_name, deploy|
   #end
 
   # Run artisan migrate to setup the database and schema, then seed it
-  bash 'insert_db_laravel' do
-    user 'root'
-    cwd "#{deploy[:deploy_to]}/current"
-    code <<-EOH
-    php artisan migrate --env=development
-    php artisan db:seed --env=development
-    EOH
-  end
+  #bash 'insert_db_laravel' do
+    #user 'root'
+    #cwd "#{deploy[:deploy_to]}/current"
+    #code <<-EOH
+    #php artisan migrate --env=development
+    #php artisan db:seed --env=development
+    #EOH
+  #end
 end
