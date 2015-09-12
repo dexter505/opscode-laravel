@@ -9,4 +9,4 @@
 include_recipe "chef-php-extra::module_mcrypt"
 
 # Install xdebug
-include_recipe "chef-php-extra::xdebug"
+#include_recipe "chef-php-extra::xdebug"
