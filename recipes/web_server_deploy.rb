@@ -96,12 +96,12 @@ node[:deploy].each do |app_name, deploy|
   #end
   
   # Install Laravel
-  script "install_npm_phantomjs" do
+  script "install_phantomjs" do
     interpreter "bash"
     user "root"
     cwd "#{deploy[:deploy_to]}/current"
     code <<-EOH
-    npm install phantomjs@1.9.*
+    apt-get install phantomjs
     EOH
   end
 
