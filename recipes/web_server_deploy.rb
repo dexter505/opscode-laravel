@@ -19,7 +19,6 @@ node[:deploy].each do |app_name, deploy|
     end
 
     variables(
-      :appkey =>   (deploy[:appkey] rescue nil),
       :host =>     (deploy[:database][:host] rescue nil),
       :user =>     (deploy[:database][:username] rescue nil),
       :password => (deploy[:database][:password] rescue nil),
@@ -95,4 +94,10 @@ node[:deploy].each do |app_name, deploy|
     #php artisan db:seed --env=development
     #EOH
   #end
+  
+  include_recipe "nodejs"
+  
+  nodejs_npm "phantomjs" do
+    version "1.9.*"
+  end
 end
