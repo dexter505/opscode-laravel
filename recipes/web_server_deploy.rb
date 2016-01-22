@@ -95,8 +95,6 @@ node[:deploy].each do |app_name, deploy|
     #EOH
   #end
   
-  include_recipe "nodejs"
-  
   nodejs_npm "phantomjs" do
     version "1.9.*"
   end
